@@ -836,11 +836,12 @@ static void Mesh3D(GModel *m)
   std::vector<GRegion *> delaunay;
   std::for_each(m->firstRegion(), m->lastRegion(), meshGRegion(delaunay));
 
-  // and finally mesh the delaunay regions (again, this is global; but
-  // we mesh each connected part separately for performance and mesh
-  // quality reasons)
+  // Mesh region on by one so Field/Restrict/RegionLists is honored
   std::vector<std::vector<GRegion *> > connected;
-  FindConnectedRegions(delaunay, connected);
+  connected.resize(delaunay.size());
+  for(size_t i = 0; i < delaunay.size(); i++) {
+    connected[i].push_back(delaunay[i]);
+  }
 
   // remove quads elements for volumes that are recombined
   for(unsigned int i = 0; i < connected.size(); i++) {
