@@ -1653,7 +1653,6 @@ void SetOrderN(GModel *m, int order, bool linear, bool incomplete,
   std::vector<MElement *> bad;
   double worst;
   checkHighOrderTriangles("Surface mesh", m, bad, worst);
-  checkHighOrderTetrahedron("Volume Mesh", m, bad, worst);
   // FIXME : add other element check
 
   Msg::StatusBar(true, "Done meshing order %d (%g s)", order, t2 - t1);
